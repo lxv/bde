@@ -445,7 +445,9 @@ const char *LargeTestData::expectedOutput() const
 //                       GLOBAL HELPER CLASSES FOR TESTING
 // ----------------------------------------------------------------------------
 
-#if defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_WINDOWS) || \
+    defined(BSLS_PLATFORM_OS_DARWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 typedef struct stat StatType;
 #else
 typedef struct stat64 StatType;
@@ -453,7 +455,9 @@ typedef struct stat64 StatType;
 
 inline int fstatFunc(int fd, StatType *buf)
 {
-#if defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_WINDOWS) || \
+    defined(BSLS_PLATFORM_OS_DARWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
     return fstat(fd, buf);
 #else
     return fstat64(fd, buf);

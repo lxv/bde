@@ -25,6 +25,7 @@ BSLS_IDENT("$Id: $")
 #include <bslstl_iosfwd.h>
 
 #include <ios>
+#include <locale>
 
 #ifndef BDE_DONT_ALLOW_TRANSITIVE_INCLUDES
 #include <bsls_nativestd.h>
@@ -103,13 +104,7 @@ namespace bsl {
     using std::istreambuf_iterator;
     using std::iterator;
     using std::locale;
-
-# ifndef BSLS_PLATFORM_OS_DARWIN
-// This alias isn't available from <ios> in Maverick (OS X 10.9).  See DRQS
-// 54913937.
     using std::num_get;
-# endif
-
     using std::numpunct;
     using std::numpunct_byname;
     using std::ostreambuf_iterator;

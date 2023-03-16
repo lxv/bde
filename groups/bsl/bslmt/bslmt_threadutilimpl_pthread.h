@@ -441,7 +441,7 @@ bsls::Types::Uint64
 bslmt::ThreadUtilImpl<bslmt::Platform::PosixThreads>::idAsUint64(
                                                             const Id& threadId)
 {
-#ifdef BSLS_PLATFORM_OS_DARWIN
+#if defined(BSLS_PLATFORM_CMP_CLANG)
     return reinterpret_cast<bsls::Types::Uint64>(threadId);
 #else
     return static_cast<bsls::Types::Uint64>(threadId);

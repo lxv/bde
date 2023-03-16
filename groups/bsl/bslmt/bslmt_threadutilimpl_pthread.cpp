@@ -41,6 +41,8 @@ BSLS_IDENT_RCSID(bslmt_threadutilimpl_pthread_cpp,"$Id$ $CSID$")
 # include <mach/mach.h>    // clock_sleep
 # include <mach/clock.h>   // clock_sleep
 # include <sys/sysctl.h>   // sysctl
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+# include <sys/sysctl.h>   // sysctl
 #elif defined(BSLS_PLATFORM_OS_SOLARIS)
 # include <sys/utsname.h>
 #elif defined(BSLS_PLATFORM_OS_LINUX)
@@ -413,14 +415,16 @@ void bslmt::ThreadUtilImpl<bslmt::Platform::PosixThreads>::getThreadName(
 {
     BSLS_ASSERT(threadName);
 
-#if defined(BSLS_PLATFORM_OS_LINUX) ||  defined(BSLS_PLATFORM_OS_DARWIN) ||   \
-    defined(BSLS_PLATFORM_OS_SOLARIS)
+#if defined(BSLS_PLATFORM_OS_LINUX)   || defined(BSLS_PLATFORM_OS_DARWIN) ||  \
+    defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
 
     char localBuf[u::k_THREAD_NAME_BUF_SIZE];
 
 # if defined(BSLS_PLATFORM_OS_LINUX)
     const int rc = prctl(PR_GET_NAME, localBuf, 0, 0, 0);
-# elif defined(BSLS_PLATFORM_OS_DARWIN) || defined(BSLS_PLATFORM_OS_SOLARIS)
+# elif defined(BSLS_PLATFORM_OS_DARWIN)  || \
+       defined(BSLS_PLATFORM_OS_SOLARIS) || \
+       defined(BSLS_PLATFORM_OS_FREEBSD)
     const int rc = pthread_getname_np(pthread_self(),
                                       localBuf,
                                       u::k_THREAD_NAME_BUF_SIZE);
@@ -478,7 +482,7 @@ void bslmt::ThreadUtilImpl<bslmt::Platform::PosixThreads>::setThreadName(
     const int rc = prctl(PR_SET_NAME, buffer, 0, 0, 0);
 # elif defined(BSLS_PLATFORM_OS_DARWIN)
     const int rc = pthread_setname_np(buffer);
-# elif defined(BSLS_PLATFORM_OS_SOLARIS)
+# elif defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
     const int rc = pthread_setname_np(pthread_self(), buffer);
 # endif
 
@@ -557,7 +561,11 @@ bslmt::ThreadUtilImpl<bslmt::Platform::PosixThreads>::hardwareConcurrency()
     // set the mib for hw.ncpu.
 
     mib[0] = CTL_HW;
-    mib[1] = HW_AVAILCPU;  // alternatively, try HW_NCPU
+# if defined(BSLS_PLATFORM_OS_FREEBSD)
+    mib[1] = HW_NCPU;
+# else
+    mib[1] = HW_AVAILCPU;
+# endif
 
     // Get the number of CPUs from the system.
 

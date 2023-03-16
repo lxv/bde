@@ -23,4 +23,9 @@ bbs_add_target_thread_flags(bsls PUBLIC)
 bbs_add_target_rt_flags(${target} PUBLIC)
 bbs_add_target_thread_flags(${target} PUBLIC)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    target_link_libraries(bsls INTERFACE "-lutil -lexecinfo")
+    set_property(TARGET ${target} APPEND PROPERTY INTERFACE_LINK_LIBRARIES "-lutil -lexecinfo")
+endif()
+
 bbs_emit_pkg_config(${target})

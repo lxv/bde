@@ -41,10 +41,19 @@ BSLS_IDENT("$Id$ $CSID$")
 # include <execinfo.h>
 # include <libproc.h>
 
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+
+# include <sys/types.h>
+# include <sys/user.h>
+# include <execinfo.h>
+# include <libutil.h>
+# include <stdlib.h>
+
 #elif defined(BSLS_PLATFORM_OS_SOLARIS)
 
 # include <sys/frame.h>
 # include <sys/stack.h>
+# include <execinfo.h>
 # include <link.h>
 # include <thread.h>
 # include <setjmp.h>
@@ -136,6 +145,16 @@ int getProcessName(char *output, int length)
 
     snprintf(output, length, "%s", execName);
     return 0;
+
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+
+    struct kinfo_proc *proc = kinfo_getproc(getpid());
+    if (!proc) {
+        return -1;
+    }
+    int printed = snprintf(output, length, "%s", proc->ki_comm);
+    free(proc);
+    return (printed >= 0) ? 0 : -1;
 
 #elif defined(BSLS_PLATFORM_OS_WINDOWS)
 
@@ -320,7 +339,9 @@ int StackAddressUtil::getStackAddresses(void **buffer,
 // AIX
 #endif
 
-#if defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_LINUX) || \
+    defined(BSLS_PLATFORM_OS_DARWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 
 namespace bsls {
 

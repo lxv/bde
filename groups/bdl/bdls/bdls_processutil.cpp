@@ -42,6 +42,10 @@ BSLS_IDENT_RCSID(bdls_processutil_cpp,"$Id$ $CSID$")
 #   include <procinfo.h>
 # elif defined BSLS_PLATFORM_OS_DARWIN
 #   include <libproc.h>
+# elif defined BSLS_PLATFORM_OS_FREEBSD
+#   include <sys/types.h>
+#   include <sys/user.h>
+#   include <libutil.h>
 # elif defined BSLS_PLATFORM_OS_LINUX
 #   include <bslma_deallocatorguard.h>
 #   include <bsls_types.h>
@@ -114,6 +118,7 @@ bool isExecutable(const char *path)
     const int executableBits = S_IXUSR | S_IXGRP | S_IXOTH;
 
 # if defined(BSLS_PLATFORM_OS_CYGWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD) || \
     (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
     struct stat s;
     int rc = ::stat(path, &s);
@@ -324,6 +329,16 @@ int ProcessUtil::getProcessName(bsl::string *result)
     }
 
     return -1;
+
+#elif defined BSLS_PLATFORM_OS_FREEBSD
+
+    struct kinfo_proc *proc = kinfo_getproc(getProcessId());
+    if (!proc) {
+        return -1;
+    }
+    result->assign(proc->ki_comm);
+    free(proc);
+    return 0;
 
 #elif defined BSLS_PLATFORM_OS_WINDOWS
 
