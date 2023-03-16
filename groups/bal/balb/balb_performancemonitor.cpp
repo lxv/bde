@@ -579,12 +579,12 @@ int PerformanceMonitor::Collector<bsls::Platform::OsLinux>
 
 template <>
 class PerformanceMonitor::Collector<bsls::Platform::OsFreeBsd> {
-    // Provide a specialization of the 'Collector' class template for the Linux
-    // platform.  SunOS, AIX, and Linux all support the /proc filesystem, from
-    // which we extract the performance measures for the monitored pid.  On
-    // Linux, the layout and content of this file system differs from the
-    // layout and content of the file system on SunOS or AIX, hence this
-    // 'Collector' class template specialization.
+    // Provide a specialization of the 'Collector' class template for the
+    // FreeBSD platform.  SunOS, AIX, FreeBSD, and Linux all support the /proc
+    // filesystem, from which we extract the performance measures for the
+    // monitored pid.  On FreeBSD, the layout and content of this file system
+    // differs from the layout and content of the file system on SunOS or AIX,
+    // hence this 'Collector' class template specialization.
 
     // Note that the FreeBSD implementation is stateless.  However, the
     // 'Collector' template requires a constructor accepting a single
@@ -670,7 +670,7 @@ int PerformanceMonitor::Collector<bsls::Platform::OsFreeBsd>
 
     bsl::ifstream ifs(filename.str().c_str());
     if (!ifs) {
-        BSLS_LOG_DEBUG("Failed to open '%s'", filename.str());
+        BSLS_LOG_DEBUG("Failed to open '%s'", filename.str().c_str());
         return -1;
     }
 
