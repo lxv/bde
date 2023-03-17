@@ -173,7 +173,7 @@ typedef bsls::StackAddressUtil Address;
 
 # if   defined(BSLS_PLATFORM_OS_SOLARIS)
     enum { PLAT_SUN=1, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0 };
-# elif defined(BSLS_PLATFORM_OS_LINUX)
+# elif defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_FREEBSD)
     enum { PLAT_SUN=0, PLAT_LINUX=1, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0 };
 # else
 #   error unknown platform

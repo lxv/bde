@@ -1346,7 +1346,9 @@ int main(int argc, char *argv[])
                     printf("\t%d %s %d %zu\n",
                            j, cj.category().name(), cj.value(), hasher(cj));
                 }
-#if defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_WINDOWS) || \
+    defined(BSLS_PLATFORM_OS_DARWIN)  || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
                 // macOS/Windows implementations appear to not include the category.
                 bool equal = ci.value() == cj.value();
 #else
@@ -1389,7 +1391,9 @@ int main(int argc, char *argv[])
                     printf("\t%d %s %d %zu\n",
                            j, cj.category().name(), cj.value(), hasher(cj));
                 }
-#if defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_WINDOWS) || \
+    defined(BSLS_PLATFORM_OS_DARWIN)  || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
                 // Windows implementation appears to not include the category.
                 bool equal = ci.value() == cj.value();
 #else
@@ -1411,7 +1415,9 @@ int main(int argc, char *argv[])
                     printf("\t%d %s %d %zu\n",
                            j, cj.category().name(), cj.value(), hasher(cj));
                 }
-#if defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_WINDOWS) || \
+    defined(BSLS_PLATFORM_OS_DARWIN)  || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
                 // Windows implementation appears to not include the category.
                 bool equal = ci.value() == cj.value();
 #else

@@ -68,6 +68,11 @@ BSLS_IDENT_RCSID(balst_stacktraceresolverimpl_elf_cpp,"$Id$ $CSID$")
 #   include <dlfcn.h>
 # endif
 
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+
+# include <cxxabi.h>
+# include <link.h>
+
 #else
 
 # error unrecognized ELF platform
@@ -4017,7 +4022,7 @@ void u::StackTraceResolver::setFrameSymbolName(
 #endif
 }
 
-#if defined(BSLS_PLATFORM_OS_LINUX)
+#if defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_FREEBSD)
 // Linux could use the same method as Solaris, but we would need a special case
 // for statically linked apps.  Instead of that we're going to use the
 // 'dl_iterate_phdr' function, which works for static and dynamic apps (you get
@@ -4088,7 +4093,7 @@ int u::StackTraceResolver::resolve(
         return 0;                                                     // RETURN
     }
 
-#if defined(BSLS_PLATFORM_OS_LINUX)
+#if defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_FREEBSD)
 
     u::StackTraceResolver resolver(stackTrace,
                                        demanglingPreferredFlag);

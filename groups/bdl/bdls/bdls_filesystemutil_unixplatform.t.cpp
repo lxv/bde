@@ -234,7 +234,7 @@ struct PlatformUtil {
 #elif defined(BSLS_PLATFORM_OS_DARWIN)
         LargeFileMode::e_NOT_DEFINED;
 #elif defined(BSLS_PLATFORM_OS_FREEBSD)
-        LargeFileMode::e_NOT_DEFINED
+        LargeFileMode::e_NOT_DEFINED;
 #elif defined(BSLS_PLATFORM_OS_LINUX) && defined(_LARGEFILE64_SOURCE)
         LargeFileMode::e_DEFINED;
 #elif defined(BSLS_PLATFORM_OS_LINUX)
@@ -260,6 +260,8 @@ struct PlatformUtil {
 #elif defined(BSLS_PLATFORM_OS_CYGWIN)
         FileOffsetBits::e_NOT_DEFINED;
 #elif defined(BSLS_PLATFORM_OS_DARWIN)
+        FileOffsetBits::e_NOT_DEFINED;
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
         FileOffsetBits::e_NOT_DEFINED;
 #elif defined(BSLS_PLATFORM_OS_LINUX) \
    && defined(_FILE_OFFSET_BITS)      \

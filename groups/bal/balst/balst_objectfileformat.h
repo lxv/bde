@@ -144,7 +144,8 @@ struct ObjectFileFormat {
     struct Dummy {};
 
 #if defined(BSLS_PLATFORM_OS_SOLARIS) || \
-    defined(BSLS_PLATFORM_OS_LINUX)
+    defined(BSLS_PLATFORM_OS_LINUX)   || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 
     typedef Elf Policy;
 #   define BALST_OBJECTFILEFORMAT_RESOLVER_ELF 1

@@ -137,7 +137,7 @@ typedef balst::StackTracePrintUtil_Test      PrintUtilTest;
 # if   defined(BSLS_PLATFORM_OS_SOLARIS)
     enum { e_PLAT_SUN=1, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=0,
                                                                 e_PLAT_WIN=0 };
-# elif defined(BSLS_PLATFORM_OS_LINUX)
+# elif defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_FREEBSD)
     enum { e_PLAT_SUN=0, e_PLAT_LINUX=1, e_PLAT_HP=0, e_PLAT_AIX=0,
                                                                 e_PLAT_WIN=0 };
 # else
