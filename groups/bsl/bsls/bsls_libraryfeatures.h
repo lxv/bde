@@ -1607,7 +1607,7 @@ BSLS_IDENT("$Id: $")
                 //  #define BSLS_LIBRARYFEATURES_HAS_CPP17_INT_CHARCONV
                 //  #define BSLS_LIBRARYFEATURES_HAS_CPP17_CHARCONV
             #else
-                #error Unsupported standard library for g++
+                #error Unsupported standard library for clang++
             #endif
 
             //  #define BSLS_LIBRARYFEATURES_HAS_CPP17_PARALLEL_ALGORITHMS
